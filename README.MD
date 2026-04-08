@@ -20,12 +20,16 @@ Classic Reads is a premium frontend project for discovering literary classics th
 - FAQ section
 - Responsive layout
 
+---
+
 ## Tech Stack
 
 - HTML5
 - CSS3
 - Vanilla JavaScript
 - JSON
+
+---
 
 ## Notes
 
@@ -36,3 +40,27 @@ Examples:
 - Live Server (VS Code)
 - `npx serve`
 - `python -m http.server`
+
+---
+
+## Live Demo
+
+**Demo:** [https://jandresdevelop.github.io/Classic-reads](https://jandresdevelop.github.io/Classic-reads)
+
+---
+
+## Repository
+
+**Repository:** [https://github.com/jandresdevelop/Classic-reads](https://github.com/jandresdevelop/Classic-reads)
+
+---
+
+## Screenshots
+
+### Main view
+
+![Main view](./assets/images/hero-section.png)
+
+### Some books
+
+![Some books](./assets/images/some-books.png)
