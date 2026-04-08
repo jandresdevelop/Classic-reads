@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Classic Reads | Premium Literary Catalog</title>
+    <meta
+      name="description"
+      content="A premium, accessible, and interactive literary landing page featuring classic books, filters, favorites, dark mode, pagination, FAQ, newsletter, and detailed book previews."
+    />
+    <meta name="author" content="Your Name" />
+    <meta
+      property="og:title"
+      content="Classic Reads | Premium Literary Catalog"
+    />
+    <meta
+      property="og:description"
+      content="Explore a premium catalog of literary classics with search, filters, favorites, book details, pagination, and visual polish."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="icon" href="./assets/favi.ico" />
+    <script defer src="assets/js/script.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header">
+      <div class="container header-container">
+        <a href="#" class="logo" aria-label="Classic Reads home">
+          <span class="logo-mark">CR</span>
+          <span class="logo-text">Classic Reads</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-navigation"
+          aria-label="Open navigation menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav id="site-navigation" class="site-nav" aria-label="Main navigation">
+          <ul class="nav-list">
+            <li><a href="#featured-books">Featured</a></li>
+            <li><a href="#catalog">Catalog</a></li>
+            <li><a href="#newsletter">Newsletter</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <button
+            id="themeToggle"
+            class="theme-toggle"
+            type="button"
+            aria-label="Toggle dark and light mode"
+            title="Toggle theme"
+          >
+            <span id="themeIcon" aria-hidden="true">🌙</span>
+          </button>
+
+          <a href="#catalog" class="btn btn-outline desktop-cta">Browse now</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-content reveal">
+            <p class="eyebrow">Premium literary discovery</p>
+            <h1>Explore the greatest classics ever written</h1>
+            <p class="hero-description">
+              Discover timeless masterpieces through a refined digital catalog
+              with real book covers, favorites, advanced filters, pagination,
+              detailed previews, and an elegant responsive experience.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#catalog" class="btn btn-primary">Explore catalog</a>
+              <a href="#featured-books" class="btn btn-secondary"
+                >Featured books</a
+              >
+            </div>
+
+            <ul class="hero-highlights" aria-label="Site highlights">
+              <li>25+ classics</li>
+              <li>Real book covers</li>
+              <li>Favorites system</li>
+              <li>Accessible and responsive</li>
+            </ul>
+          </div>
+
+          <div class="hero-visual reveal" aria-hidden="true">
+            <div class="hero-glow"></div>
+
+            <article class="glass-card main-book-card">
+              <span class="pill">Curated collection</span>
+              <h2>Timeless stories, elevated experience</h2>
+              <p>
+                Search, filter, save favorites, and browse classics beautifully.
+              </p>
+            </article>
+
+            <article class="glass-card floating-card top-right">
+              <h3>1984</h3>
+              <p>George Orwell</p>
+            </article>
+
+            <article class="glass-card floating-card bottom-left">
+              <h3>Moby-Dick</h3>
+              <p>Herman Melville</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats section">
+        <div class="container stats-grid reveal">
+          <article class="stat-card">
+            <h2 id="stat-books">00</h2>
+            <p>Books available</p>
+          </article>
+          <article class="stat-card">
+            <h2 id="stat-genres">00</h2>
+            <p>Genres represented</p>
+          </article>
+          <article class="stat-card">
+            <h2 id="stat-favorites">00</h2>
+            <p>Favorite titles</p>
+          </article>
+          <article class="stat-card">
+            <h2>100%</h2>
+            <p>Responsive interface</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="featured-books" class="featured-books section">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="section-label">Featured Collection</p>
+            <h2>Essential classics that shaped literary history</h2>
+            <p>
+              A premium presentation of influential literary works with visual
+              depth, clean structure, and product-level frontend polish.
+            </p>
+          </div>
+
+          <div id="featuredBooksGrid" class="books-grid"></div>
+        </div>
+      </section>
+
+      <section id="catalog" class="catalog section">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="section-label">Interactive Catalog</p>
+            <h2>Search, filter, sort, favorite, and explore</h2>
+            <p>
+              Browse a larger collection of classics with a dynamic and
+              accessible interface that feels much closer to a real product.
+            </p>
+          </div>
+
+          <div class="catalog-toolbar reveal" aria-label="Catalog controls">
+            <div class="form-group form-group-search">
+              <label for="searchInput">Search books</label>
+              <input
+                id="searchInput"
+                type="search"
+                placeholder="Search by title or author"
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="genreFilter">Filter by genre</label>
+              <select id="genreFilter">
+                <option value="all">All genres</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="sortBy">Sort by</label>
+              <select id="sortBy">
+                <option value="default">Default order</option>
+                <option value="year-asc">Oldest first</option>
+                <option value="year-desc">Newest first</option>
+                <option value="title-asc">Title A-Z</option>
+                <option value="title-desc">Title Z-A</option>
+              </select>
+            </div>
+
+            <div class="form-group checkbox-group">
+              <label for="favoritesOnly">Favorites only</label>
+              <input id="favoritesOnly" type="checkbox" />
+            </div>
+          </div>
+
+          <div class="catalog-summary reveal">
+            <p>
+              Showing <strong id="resultsCount">0</strong> books in the current
+              view.
+            </p>
+          </div>
+
+          <div id="booksCardGrid" class="catalog-cards-grid reveal"></div>
+
+          <div
+            id="pagination"
+            class="pagination reveal"
+            aria-label="Catalog pagination"
+          ></div>
+
+          <div
+            class="table-wrapper reveal"
+            role="region"
+            aria-labelledby="catalog-caption"
+            tabindex="0"
+          >
+            <table>
+              <caption id="catalog-caption">
+                Catalog of books with title, author, genre, and publication year
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Title</th>
+                  <th scope="col">Author</th>
+                  <th scope="col">Genre</th>
+                  <th scope="col">Publication Year</th>
+                </tr>
+              </thead>
+              <tbody id="catalogBody"></tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="4" id="catalogFooter">Total Books: 0</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <p id="emptyState" class="empty-state" hidden>
+            No books match your current search or filters.
+          </p>
+        </div>
+      </section>
+
+      <section class="newsletter section" id="newsletter">
+        <div class="container reveal">
+          <div class="newsletter-box">
+            <div>
+              <p class="section-label">Stay inspired</p>
+              <h2>Join our literary newsletter</h2>
+              <p>
+                Receive curated classic book recommendations, reading
+                inspiration, and timeless literary highlights directly in your
+                inbox.
+              </p>
+            </div>
+
+            <form class="newsletter-form" id="newsletterForm" novalidate>
+              <div class="form-group">
+                <label for="newsletterEmail">Email address</label>
+                <input
+                  id="newsletterEmail"
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <button class="btn btn-primary" type="submit">Subscribe</button>
+              <p
+                id="newsletterMessage"
+                class="newsletter-message"
+                aria-live="polite"
+              ></p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="faq section" id="faq">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="section-label">FAQ</p>
+            <h2>Frequently asked questions</h2>
+            <p>
+              Helpful answers about the catalog, favorites, themes, and browsing
+              experience.
+            </p>
+          </div>
+
+          <div class="faq-list reveal">
+            <details class="faq-item">
+              <summary>How are books selected for this catalog?</summary>
+              <p>
+                The catalog focuses on literary classics chosen for historical,
+                cultural, and educational significance across multiple genres.
+              </p>
+            </details>
+
+            <details class="faq-item">
+              <summary>Do favorites persist after refreshing the page?</summary>
+              <p>
+                Yes. Favorite books are saved in localStorage so they remain
+                available between sessions on the same browser.
+              </p>
+            </details>
+
+            <details class="faq-item">
+              <summary>Can I use my own cover images?</summary>
+              <p>
+                Yes. Each book entry supports a custom `.webp` cover path,
+                making it easy to replace placeholder covers with optimized real
+                images.
+              </p>
+            </details>
+
+            <details class="faq-item">
+              <summary>Is the catalog responsive and accessible?</summary>
+              <p>
+                Yes. The project includes semantic structure, keyboard support,
+                visible focus states, responsive layouts, and accessible modal
+                behavior.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section id="cta" class="cta section">
+        <div class="container reveal">
+          <div class="cta-box">
+            <div>
+              <p class="section-label">Build your reading list</p>
+              <h2>Save your favorite classics and start exploring</h2>
+              <p>
+                Use the interactive catalog to discover enduring literary works
+                that deserve a place in every reader’s collection.
+              </p>
+            </div>
+            <a href="#catalog" class="btn btn-primary">Browse classics</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="reveal">
+          <a href="#" class="logo footer-logo" aria-label="Classic Reads home">
+            <span class="logo-mark">CR</span>
+            <span class="logo-text">Classic Reads</span>
+          </a>
+          <p class="footer-text">
+            A premium literary catalog concept focused on accessibility,
+            frontend quality, interaction design, and maintainable
+            implementation.
+          </p>
+        </div>
+
+        <div class="reveal">
+          <h2 class="footer-title">Sections</h2>
+          <ul class="footer-links">
+            <li><a href="#featured-books">Featured books</a></li>
+            <li><a href="#catalog">Catalog</a></li>
+            <li><a href="#newsletter">Newsletter</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="reveal">
+          <h2 class="footer-title">Contact</h2>
+          <ul class="footer-links">
+            <li>
+              <a href="mailto:hello@classicreads.com">hello@classicreads.com</a>
+            </li>
+            <li><a href="tel:+10000000000">+1 (000) 000-0000</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="container footer-bottom">
+        <p>&copy; 2025 Classic Reads. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <div
+      id="bookModal"
+      class="modal"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+      aria-describedby="modalDescription"
+    >
+      <div class="modal-backdrop" data-close-modal="true"></div>
+
+      <div class="modal-content" role="document" tabindex="-1">
+        <button
+          id="modalClose"
+          class="modal-close"
+          type="button"
+          aria-label="Close book details"
+        >
+          ×
+        </button>
+
+        <div id="modalBody" class="modal-body"></div>
+      </div>
+    </div>
+  </body>
+</html>
