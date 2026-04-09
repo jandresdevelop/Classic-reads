@@ -874,6 +874,12 @@ tfoot td {
   border-radius: 18px;
 }
 
+.book-cover,
+.catalog-book-cover,
+.modal-book-cover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
 .modal-book-meta {
   color: #475569;
   margin-bottom: 1rem;
