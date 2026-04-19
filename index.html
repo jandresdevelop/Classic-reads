@@ -9,6 +9,9 @@
       content="A premium, accessible, and interactive literary landing page featuring classic books, filters, favorites, dark mode, pagination, FAQ, newsletter, and detailed book previews."
     />
     <meta name="author" content="Jose Andres Hernandez" />
+    <meta name="theme-color" content="#081120" />
+    <meta name="color-scheme" content="dark light" />
+
     <meta
       property="og:title"
       content="Classic Reads | Premium Literary Catalog"
@@ -18,17 +21,32 @@
       content="Explore a premium catalog of literary classics with search, filters, favorites, book details, pagination, and visual polish."
     />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Classic Reads" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Classic Reads | Premium Literary Catalog"
+    />
+    <meta
+      name="twitter:description"
+      content="Explore a premium catalog of literary classics with search, filters, favorites, book details, pagination, and visual polish."
+    />
+
+    <link rel="icon" href="./assets/libro.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="./assets/libro.ico" />
     <link rel="stylesheet" href="assets/css/styles.css" />
-    <link rel="icon" href="./assets/libro.ico" />
     <script defer src="assets/js/script.js"></script>
   </head>
+
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <header class="site-header">
+    <header class="site-header" id="top">
       <div class="container header-container">
-        <a href="#" class="logo" aria-label="Classic Reads home">
-          <span class="logo-mark">CR</span>
+        <a href="#top" class="logo" aria-label="Classic Reads home">
+          <span class="logo-mark" aria-hidden="true">CR</span>
           <span class="logo-text">Classic Reads</span>
         </a>
 
@@ -46,10 +64,10 @@
 
         <nav id="site-navigation" class="site-nav" aria-label="Main navigation">
           <ul class="nav-list">
-            <li><a href="#featured-books">Featured</a></li>
-            <li><a href="#catalog">Catalog</a></li>
-            <li><a href="#newsletter">Newsletter</a></li>
-            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#featured-books" data-nav-link>Featured</a></li>
+            <li><a href="#catalog" data-nav-link>Catalog</a></li>
+            <li><a href="#newsletter" data-nav-link>Newsletter</a></li>
+            <li><a href="#faq" data-nav-link>FAQ</a></li>
           </ul>
         </nav>
 
@@ -69,12 +87,14 @@
       </div>
     </header>
 
+    <div class="nav-overlay" hidden aria-hidden="true"></div>
+
     <main id="main-content">
-      <section class="hero">
+      <section class="hero" aria-labelledby="hero-title">
         <div class="container hero-grid">
           <div class="hero-content reveal">
             <p class="eyebrow">Premium literary discovery</p>
-            <h1>Explore the greatest classics ever written</h1>
+            <h1 id="hero-title">Explore the greatest classics ever written</h1>
             <p class="hero-description">
               Discover timeless masterpieces through a refined digital catalog
               with real book covers, favorites, advanced filters, pagination,
@@ -120,32 +140,41 @@
         </div>
       </section>
 
-      <section class="stats section">
-        <div class="container stats-grid reveal">
-          <article class="stat-card">
-            <h2 id="stat-books">00</h2>
-            <p>Books available</p>
-          </article>
-          <article class="stat-card">
-            <h2 id="stat-genres">00</h2>
-            <p>Genres represented</p>
-          </article>
-          <article class="stat-card">
-            <h2 id="stat-favorites">00</h2>
-            <p>Favorite titles</p>
-          </article>
-          <article class="stat-card">
-            <h2>100%</h2>
-            <p>Responsive interface</p>
-          </article>
+      <section class="stats section" aria-labelledby="stats-title">
+        <div class="container">
+          <h2 id="stats-title" class="sr-only">Catalog statistics</h2>
+          <div class="stats-grid reveal">
+            <article class="stat-card">
+              <h3 id="stat-books">00</h3>
+              <p>Books available</p>
+            </article>
+            <article class="stat-card">
+              <h3 id="stat-genres">00</h3>
+              <p>Genres represented</p>
+            </article>
+            <article class="stat-card">
+              <h3 id="stat-favorites">00</h3>
+              <p>Favorite titles</p>
+            </article>
+            <article class="stat-card">
+              <h3>100%</h3>
+              <p>Responsive interface</p>
+            </article>
+          </div>
         </div>
       </section>
 
-      <section id="featured-books" class="featured-books section">
+      <section
+        id="featured-books"
+        class="featured-books section"
+        aria-labelledby="featured-books-title"
+      >
         <div class="container">
           <div class="section-heading reveal">
             <p class="section-label">Featured Collection</p>
-            <h2>Essential classics that shaped literary history</h2>
+            <h2 id="featured-books-title">
+              Essential classics that shaped literary history
+            </h2>
             <p>
               A premium presentation of influential literary works with visual
               depth, clean structure, and product-level frontend polish.
@@ -156,18 +185,24 @@
         </div>
       </section>
 
-      <section id="catalog" class="catalog section">
+      <section
+        id="catalog"
+        class="catalog section"
+        aria-labelledby="catalog-title"
+      >
         <div class="container">
           <div class="section-heading reveal">
             <p class="section-label">Interactive Catalog</p>
-            <h2>Search, filter, sort, favorite, and explore</h2>
+            <h2 id="catalog-title">
+              Search, filter, sort, favorite, and explore
+            </h2>
             <p>
               Browse a larger collection of classics with a dynamic and
               accessible interface that feels much closer to a real product.
             </p>
           </div>
 
-          <div class="catalog-toolbar reveal" aria-label="Catalog controls">
+          <form class="catalog-toolbar reveal" aria-label="Catalog controls">
             <div class="form-group form-group-search">
               <label for="searchInput">Search books</label>
               <input
@@ -200,9 +235,9 @@
               <label for="favoritesOnly">Favorites only</label>
               <input id="favoritesOnly" type="checkbox" />
             </div>
-          </div>
+          </form>
 
-          <div class="catalog-summary reveal">
+          <div class="catalog-summary reveal" aria-live="polite">
             <p>
               Showing <strong id="resultsCount">0</strong> books in the current
               view.
@@ -250,12 +285,16 @@
         </div>
       </section>
 
-      <section class="newsletter section" id="newsletter">
+      <section
+        class="newsletter section"
+        id="newsletter"
+        aria-labelledby="newsletter-title"
+      >
         <div class="container reveal">
           <div class="newsletter-box">
             <div>
               <p class="section-label">Stay inspired</p>
-              <h2>Join our literary newsletter</h2>
+              <h2 id="newsletter-title">Join our literary newsletter</h2>
               <p>
                 Receive curated classic book recommendations, reading
                 inspiration, and timeless literary highlights directly in your
@@ -271,7 +310,10 @@
                   type="email"
                   name="email"
                   placeholder="Enter your email"
+                  autocomplete="email"
+                  inputmode="email"
                   required
+                  aria-describedby="newsletterMessage"
                 />
               </div>
               <button class="btn btn-primary" type="submit">Subscribe</button>
@@ -285,11 +327,11 @@
         </div>
       </section>
 
-      <section class="faq section" id="faq">
+      <section class="faq section" id="faq" aria-labelledby="faq-title">
         <div class="container">
           <div class="section-heading reveal">
             <p class="section-label">FAQ</p>
-            <h2>Frequently asked questions</h2>
+            <h2 id="faq-title">Frequently asked questions</h2>
             <p>
               Helpful answers about the catalog, favorites, themes, and browsing
               experience.
@@ -316,9 +358,9 @@
             <details class="faq-item">
               <summary>Can I use my own cover images?</summary>
               <p>
-                Yes. Each book entry supports a custom `.webp` cover path,
-                making it easy to replace placeholder covers with optimized real
-                images.
+                Yes. Each book entry supports a custom <code>.webp</code> cover
+                path, making it easy to replace placeholder covers with
+                optimized real images.
               </p>
             </details>
 
@@ -334,12 +376,14 @@
         </div>
       </section>
 
-      <section id="cta" class="cta section">
+      <section id="cta" class="cta section" aria-labelledby="cta-title">
         <div class="container reveal">
           <div class="cta-box">
             <div>
               <p class="section-label">Build your reading list</p>
-              <h2>Save your favorite classics and start exploring</h2>
+              <h2 id="cta-title">
+                Save your favorite classics and start exploring
+              </h2>
               <p>
                 Use the interactive catalog to discover enduring literary works
                 that deserve a place in every reader’s collection.
@@ -353,9 +397,14 @@
 
     <footer class="site-footer">
       <div class="container footer-grid">
-        <div class="reveal">
-          <a href="#" class="logo footer-logo" aria-label="Classic Reads home">
-            <span class="logo-mark">CR</span>
+        <section class="reveal" aria-labelledby="footer-brand-title">
+          <h2 id="footer-brand-title" class="sr-only">Classic Reads</h2>
+          <a
+            href="#top"
+            class="logo footer-logo"
+            aria-label="Classic Reads home"
+          >
+            <span class="logo-mark" aria-hidden="true">CR</span>
             <span class="logo-text">Classic Reads</span>
           </a>
           <p class="footer-text">
@@ -363,27 +412,27 @@
             frontend quality, interaction design, and maintainable
             implementation.
           </p>
-        </div>
+        </section>
 
-        <div class="reveal">
-          <h2 class="footer-title">Sections</h2>
+        <nav class="reveal" aria-labelledby="footer-sections-title">
+          <h2 id="footer-sections-title" class="footer-title">Sections</h2>
           <ul class="footer-links">
             <li><a href="#featured-books">Featured books</a></li>
             <li><a href="#catalog">Catalog</a></li>
             <li><a href="#newsletter">Newsletter</a></li>
             <li><a href="#faq">FAQ</a></li>
           </ul>
-        </div>
+        </nav>
 
-        <div class="reveal">
-          <h2 class="footer-title">Contact</h2>
+        <section class="reveal" aria-labelledby="footer-contact-title">
+          <h2 id="footer-contact-title" class="footer-title">Contact</h2>
           <ul class="footer-links">
             <li>
               <a href="mailto:hello@classicreads.com">hello@classicreads.com</a>
             </li>
             <li><a href="tel:+10000000000">+1 (000) 000-0000</a></li>
           </ul>
-        </div>
+        </section>
       </div>
 
       <div class="container footer-bottom">
@@ -409,7 +458,7 @@
           type="button"
           aria-label="Close book details"
         >
-          ×
+          <span aria-hidden="true">×</span>
         </button>
 
         <div id="modalBody" class="modal-body"></div>

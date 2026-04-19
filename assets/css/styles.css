@@ -1,45 +1,89 @@
+/* =========================================
+   1. Design tokens
+========================================= */
 :root {
+  color-scheme: dark;
+
   --bg: #081120;
+  --bg-soft: #0d1729;
   --surface: rgba(255, 255, 255, 0.07);
   --surface-strong: rgba(255, 255, 255, 0.12);
+  --surface-elevated: rgba(255, 255, 255, 0.16);
+
   --card: #ffffff;
+  --card-soft: #f8fafc;
+
   --text: #e5eefc;
   --text-dark: #0f172a;
   --text-muted: #94a3b8;
+  --text-soft: #cbd5e1;
+
   --primary: #8b5cf6;
   --primary-strong: #7c3aed;
+  --primary-glow: rgba(139, 92, 246, 0.28);
   --accent: #f59e0b;
   --success: #22c55e;
   --danger: #ef4444;
+
   --border: rgba(255, 255, 255, 0.18);
+  --border-strong: rgba(255, 255, 255, 0.28);
   --border-light: #e2e8f0;
+
+  --shadow-xs: 0 6px 16px rgba(0, 0, 0, 0.12);
   --shadow-sm: 0 10px 24px rgba(0, 0, 0, 0.15);
   --shadow-md: 0 18px 45px rgba(0, 0, 0, 0.22);
   --shadow-lg: 0 28px 80px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 36px 100px rgba(0, 0, 0, 0.38);
+
+  --radius-xs: 10px;
   --radius-sm: 14px;
   --radius-md: 22px;
   --radius-lg: 32px;
+  --radius-pill: 999px;
+
   --container: 1200px;
+  --container-gutter: 1.25rem;
+  --section-space: clamp(4.5rem, 8vw, 6.5rem);
+
+  --transition-fast: 0.2s ease;
   --transition: 0.3s ease;
+  --transition-slow: 0.45s ease;
+
   --font-base:
     Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 body.light-theme {
+  color-scheme: light;
+
   --bg: #f8fafc;
+  --bg-soft: #eef2f8;
   --surface: rgba(15, 23, 42, 0.05);
   --surface-strong: rgba(15, 23, 42, 0.08);
+  --surface-elevated: rgba(15, 23, 42, 0.12);
+
   --card: #ffffff;
+  --card-soft: #f8fafc;
+
   --text: #0f172a;
   --text-dark: #0f172a;
-  --text-muted: #b6c2d1;
+  --text-muted: #64748b;
+  --text-soft: #475569;
+
   --border: rgba(15, 23, 42, 0.12);
+  --border-strong: rgba(15, 23, 42, 0.18);
   --border-light: #cbd5e1;
+
+  --shadow-xs: 0 6px 16px rgba(15, 23, 42, 0.05);
   --shadow-sm: 0 10px 20px rgba(15, 23, 42, 0.08);
   --shadow-md: 0 14px 35px rgba(15, 23, 42, 0.1);
   --shadow-lg: 0 20px 60px rgba(15, 23, 42, 0.12);
+  --shadow-xl: 0 28px 80px rgba(15, 23, 42, 0.16);
 }
 
+/* =========================================
+   2. Reset / base
+========================================= */
 *,
 *::before,
 *::after {
@@ -48,13 +92,15 @@ body.light-theme {
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 92px;
 }
 
 body {
   margin: 0;
+  min-width: 320px;
   font-family: var(--font-base);
-  color: var(--text);
   line-height: 1.6;
+  color: var(--text);
   background:
     radial-gradient(
       circle at top left,
@@ -72,12 +118,15 @@ body {
       transparent 24%
     ),
     linear-gradient(180deg, var(--bg) 0%, var(--bg) 100%);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
   transition:
     background var(--transition),
     color var(--transition);
 }
 
-body.modal-open {
+body.modal-open,
+body.nav-open {
   overflow: hidden;
 }
 
@@ -89,6 +138,8 @@ img {
 a {
   color: inherit;
   text-decoration: none;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 0.08em;
 }
 
 button,
@@ -99,6 +150,7 @@ select {
 
 button {
   cursor: pointer;
+  color: inherit;
 }
 
 h1,
@@ -108,24 +160,41 @@ p {
   margin-top: 0;
 }
 
-.container {
-  width: min(92%, var(--container));
-  margin-inline: auto;
+::selection {
+  background: rgba(139, 92, 246, 0.22);
+  color: #fff;
 }
 
-.section {
-  padding: 6rem 0;
+body.light-theme ::selection {
+  color: #111827;
+}
+
+/* =========================================
+   3. Accessibility utilities
+========================================= */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .skip-link {
   position: absolute;
   top: -60px;
   left: 1rem;
-  background: var(--primary);
-  color: #fff;
+  z-index: 10000;
   padding: 0.85rem 1rem;
   border-radius: 0.8rem;
-  z-index: 10000;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
   transition: top var(--transition);
 }
 
@@ -133,10 +202,85 @@ p {
   top: 1rem;
 }
 
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 3px solid rgba(139, 92, 246, 0.45);
+  outline-offset: 3px;
+}
+
+/* =========================================
+   4. Layout
+========================================= */
+.container {
+  width: min(100% - (var(--container-gutter) * 2), var(--container));
+  margin-inline: auto;
+}
+
+.section {
+  padding: var(--section-space) 0;
+}
+
+.section-heading {
+  max-width: 760px;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+.section-heading h2 {
+  margin-bottom: 1rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+/* =========================================
+   5. Shared text / UI
+========================================= */
+.eyebrow,
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.eyebrow::before,
+.section-label::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.28);
+}
+
+.hero-description,
+.section-heading p,
+.catalog-summary,
+.stat-card p,
+.newsletter-box p,
+.footer-text,
+.footer-links a,
+.footer-bottom p,
+.faq-item p {
+  color: var(--text-muted);
+}
+
+/* =========================================
+   6. Header / nav
+========================================= */
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 999;
+  z-index: 1200;
   backdrop-filter: blur(14px);
   background: rgba(8, 17, 32, 0.82);
   border-bottom: 1px solid var(--border);
@@ -162,13 +306,13 @@ body.light-theme .site-header {
 }
 
 .logo-mark {
-  width: 44px;
-  height: 44px;
   display: grid;
   place-items: center;
+  width: 44px;
+  height: 44px;
   border-radius: 14px;
-  color: #fff;
   background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+  color: #fff;
   box-shadow: var(--shadow-sm);
 }
 
@@ -188,30 +332,73 @@ body.light-theme .site-header {
 .nav-list a {
   display: inline-flex;
   padding: 0.75rem 1rem;
+  border: 1px solid transparent;
   border-radius: 999px;
-  transition: background var(--transition);
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition);
 }
 
 .nav-list a:hover,
-.nav-list a:focus-visible {
+.nav-list a:focus-visible,
+.nav-list a[aria-current="true"] {
   background: var(--surface);
+  border-color: var(--border);
   outline: none;
 }
 
 .nav-toggle {
   display: none;
+  position: relative;
+  z-index: 1400;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 14px;
   background: transparent;
-  border: 0;
-  color: var(--text);
 }
 
 .nav-toggle span {
   display: block;
-  width: 26px;
-  height: 3px;
-  margin: 5px 0;
-  background: currentColor;
+  width: 22px;
+  height: 2px;
+  margin: 5px auto;
   border-radius: 999px;
+  background: currentColor;
+  transition:
+    transform var(--transition),
+    opacity var(--transition),
+    translate var(--transition);
+}
+
+.nav-toggle.is-active span:nth-child(1) {
+  transform: rotate(45deg);
+  translate: 0 7px;
+}
+
+.nav-toggle.is-active span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.is-active span:nth-child(3) {
+  transform: rotate(-45deg);
+  translate: 0 -7px;
+}
+
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgba(2, 6, 23, 0.6);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.nav-overlay.is-visible {
+  opacity: 1;
 }
 
 .header-actions {
@@ -223,25 +410,29 @@ body.light-theme .site-header {
 .theme-toggle {
   min-width: 48px;
   min-height: 48px;
-  border-radius: 999px;
   border: 1px solid var(--border);
+  border-radius: 999px;
   background: var(--surface);
   color: var(--text);
 }
 
+/* =========================================
+   7. Buttons
+========================================= */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 48px;
   padding: 0.85rem 1.25rem;
-  border-radius: 999px;
   border: 1px solid transparent;
+  border-radius: 999px;
   font-weight: 700;
   transition:
     transform var(--transition),
     background var(--transition),
-    border-color var(--transition);
+    border-color var(--transition),
+    box-shadow var(--transition);
 }
 
 .btn:hover,
@@ -256,6 +447,10 @@ body.light-theme .site-header {
   box-shadow: var(--shadow-sm);
 }
 
+.btn-primary:hover {
+  box-shadow: 0 16px 32px rgba(124, 58, 237, 0.26);
+}
+
 .btn-secondary {
   background: var(--surface);
   border-color: var(--border);
@@ -268,6 +463,9 @@ body.light-theme .site-header {
   color: var(--text);
 }
 
+/* =========================================
+   8. Hero
+========================================= */
 .hero {
   padding: 6rem 0 4rem;
 }
@@ -279,41 +477,17 @@ body.light-theme .site-header {
   align-items: center;
 }
 
-.eyebrow,
-.section-label {
-  display: inline-block;
-  margin-bottom: 1rem;
-  color: var(--accent);
-  font-size: 0.82rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
 .hero h1 {
+  max-width: 11ch;
+  margin-bottom: 1.25rem;
   font-size: clamp(2.75rem, 5vw, 5rem);
   line-height: 1.02;
-  margin-bottom: 1.25rem;
-  max-width: 11ch;
-}
-
-.hero-description,
-.section-heading p,
-.catalog-summary,
-.stat-card p,
-.benefit-card p,
-.testimonial-card p,
-.newsletter-box p,
-.footer-text,
-.footer-links a,
-.footer-bottom p,
-.faq-item p {
-  color: var(--text-muted);
+  letter-spacing: -0.04em;
 }
 
 .hero-description {
-  margin-bottom: 2rem;
   max-width: 60ch;
+  margin-bottom: 2rem;
 }
 
 .hero-actions,
@@ -362,15 +536,15 @@ body.light-theme .site-header {
   border-radius: var(--radius-md);
   background: linear-gradient(180deg, var(--surface-strong), var(--surface));
   backdrop-filter: blur(18px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-xl);
 }
 
 .main-book-card {
   inset: 3rem 2rem 3rem 2rem;
-  padding: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  padding: 2rem;
 }
 
 .pill {
@@ -378,9 +552,9 @@ body.light-theme .site-header {
   margin-bottom: auto;
   padding: 0.55rem 0.85rem;
   border-radius: 999px;
+  background: var(--surface-strong);
   font-size: 0.8rem;
   font-weight: 700;
-  background: var(--surface-strong);
 }
 
 .floating-card {
@@ -398,22 +572,12 @@ body.light-theme .site-header {
   bottom: 0;
 }
 
-.section-heading {
-  max-width: 760px;
-  margin: 0 auto 3rem;
-  text-align: center;
-}
-
-.section-heading h2 {
-  font-size: clamp(2rem, 4vw, 3rem);
-  margin-bottom: 1rem;
-}
-
+/* =========================================
+   9. Grids and shared cards
+========================================= */
 .stats-grid,
 .books-grid,
 .catalog-cards-grid,
-.benefits-grid,
-.testimonials-grid,
 .footer-grid {
   display: grid;
   gap: 1.5rem;
@@ -428,28 +592,21 @@ body.light-theme .site-header {
   grid-template-columns: repeat(3, 1fr);
 }
 
-.benefits-grid,
-.testimonials-grid {
-  grid-template-columns: repeat(2, 1fr);
-}
-
 .footer-grid {
   grid-template-columns: 1.3fr 1fr 1fr;
 }
 
-.stat-card,
-.benefit-card,
-.testimonial-card {
+.stat-card {
   padding: 1.75rem;
-  border-radius: var(--radius-md);
   border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   background: var(--surface);
   box-shadow: var(--shadow-sm);
 }
 
-.stat-card h2 {
-  font-size: 2rem;
+.stat-card h3 {
   margin-bottom: 0.35rem;
+  font-size: 2rem;
 }
 
 .book-card,
@@ -461,7 +618,8 @@ body.light-theme .site-header {
   box-shadow: var(--shadow-md);
   transition:
     transform var(--transition),
-    box-shadow var(--transition);
+    box-shadow var(--transition),
+    border-color var(--transition);
 }
 
 .book-card:hover,
@@ -474,12 +632,13 @@ body.light-theme .site-header {
 
 .book-cover,
 .catalog-book-cover {
+  display: block;
   width: 100%;
   height: 420px;
   object-fit: cover;
   object-position: center;
-  display: block;
   background: #e2e8f0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .book-content,
@@ -537,12 +696,20 @@ body.light-theme .site-header {
   color: #475569;
 }
 
+/* =========================================
+   10. Catalog toolbar and controls
+========================================= */
 .catalog-toolbar {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr auto;
   gap: 1rem;
   align-items: end;
   margin-bottom: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, var(--surface-strong), var(--surface));
+  box-shadow: var(--shadow-sm);
 }
 
 .form-group {
@@ -638,9 +805,9 @@ body.light-theme .form-group select option {
 }
 
 .icon-btn.is-favorite {
-  color: #dc2626;
   border-color: rgba(220, 38, 38, 0.2);
   background: #fff1f2;
+  color: #dc2626;
 }
 
 .details-btn {
@@ -651,6 +818,9 @@ body.light-theme .form-group select option {
   padding: 0.75rem 1rem;
 }
 
+/* =========================================
+   11. Pagination / table / states
+========================================= */
 .pagination {
   display: flex;
   justify-content: center;
@@ -670,17 +840,17 @@ body.light-theme .form-group select option {
 }
 
 .pagination button.active {
+  border-color: transparent;
   background: linear-gradient(135deg, var(--primary), var(--primary-strong));
   color: #fff;
-  border-color: transparent;
 }
 
 .table-wrapper {
   overflow-x: auto;
+  padding: 1rem;
   border-radius: var(--radius-md);
   background: #fff;
   color: var(--text-dark);
-  padding: 1rem;
   box-shadow: var(--shadow-md);
 }
 
@@ -691,10 +861,10 @@ table {
 }
 
 caption {
-  text-align: left;
-  font-weight: 700;
   padding: 0.5rem;
   color: #334155;
+  text-align: left;
+  font-weight: 700;
 }
 
 th,
@@ -714,19 +884,22 @@ tbody tr:hover {
 }
 
 tfoot td {
-  font-weight: 700;
   background: #f1f5f9;
+  font-weight: 700;
 }
 
 .empty-state {
   margin-top: 1rem;
   padding: 1rem 1.25rem;
-  border-radius: 14px;
   border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 14px;
   background: rgba(239, 68, 68, 0.08);
   color: #fecaca;
 }
 
+/* =========================================
+   12. Newsletter / FAQ / CTA / Footer
+========================================= */
 .newsletter-box,
 .cta-box {
   display: flex;
@@ -734,8 +907,8 @@ tfoot td {
   align-items: center;
   gap: 2rem;
   padding: 2.25rem;
-  border-radius: var(--radius-lg);
   border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   background: linear-gradient(
     135deg,
     rgba(139, 92, 246, 0.18),
@@ -745,9 +918,9 @@ tfoot td {
 }
 
 .newsletter-form {
-  width: min(100%, 420px);
   display: grid;
   gap: 1rem;
+  width: min(100%, 420px);
 }
 
 .newsletter-message {
@@ -769,9 +942,9 @@ tfoot td {
 }
 
 .faq-item {
+  padding: 1rem 1.25rem;
   border: 1px solid var(--border);
   border-radius: 18px;
-  padding: 1rem 1.25rem;
   background: var(--surface);
 }
 
@@ -785,9 +958,9 @@ tfoot td {
 }
 
 .site-footer {
+  padding-top: 4rem;
   border-top: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.02);
-  padding-top: 4rem;
 }
 
 .footer-logo {
@@ -795,8 +968,8 @@ tfoot td {
 }
 
 .footer-title {
-  font-size: 1rem;
   margin-bottom: 1rem;
+  font-size: 1rem;
 }
 
 .footer-links {
@@ -810,10 +983,13 @@ tfoot td {
 }
 
 .footer-bottom {
-  border-top: 1px solid var(--border);
   padding: 1.25rem 0 2rem;
+  border-top: 1px solid var(--border);
 }
 
+/* =========================================
+   13. Modal
+========================================= */
 .modal {
   position: fixed;
   inset: 0;
@@ -828,6 +1004,7 @@ tfoot td {
   position: absolute;
   inset: 0;
   background: rgba(2, 6, 23, 0.72);
+  backdrop-filter: blur(4px);
 }
 
 .modal-content {
@@ -840,7 +1017,7 @@ tfoot td {
   border-radius: 24px;
   background: var(--card);
   color: var(--text-dark);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-xl);
 }
 
 .modal-close {
@@ -864,25 +1041,20 @@ tfoot td {
 }
 
 .modal-book-cover {
+  display: block;
   width: 100%;
   max-width: 260px;
   height: 360px;
   object-fit: cover;
   object-position: center;
-  display: block;
   background: #e2e8f0;
   border-radius: 18px;
-}
-
-.book-cover,
-.catalog-book-cover,
-.modal-book-cover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .modal-book-meta {
-  color: #475569;
   margin-bottom: 1rem;
+  color: #475569;
 }
 
 .modal-book-description {
@@ -900,7 +1072,11 @@ tfoot td {
   color: #475569;
 }
 
+/* =========================================
+   14. States / reveal / skeleton
+========================================= */
 .skeleton {
+  min-height: 380px;
   border-radius: var(--radius-md);
   background: linear-gradient(
     90deg,
@@ -910,7 +1086,6 @@ tfoot td {
   );
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite linear;
-  min-height: 380px;
 }
 
 .reveal {
@@ -926,15 +1101,6 @@ tfoot td {
   transform: translateY(0);
 }
 
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-summary:focus-visible {
-  outline: 3px solid rgba(139, 92, 246, 0.45);
-  outline-offset: 3px;
-}
-
 @keyframes shimmer {
   0% {
     background-position: 200% 0;
@@ -944,6 +1110,9 @@ summary:focus-visible {
   }
 }
 
+/* =========================================
+   15. Responsive
+========================================= */
 @media (max-width: 1024px) {
   .header-container {
     grid-template-columns: auto 1fr auto;
@@ -957,8 +1126,6 @@ summary:focus-visible {
   .stats-grid,
   .books-grid,
   .catalog-cards-grid,
-  .benefits-grid,
-  .testimonials-grid,
   .footer-grid,
   .modal-book-header {
     grid-template-columns: 1fr 1fr;
@@ -980,6 +1147,10 @@ summary:focus-visible {
 }
 
 @media (max-width: 768px) {
+  html {
+    scroll-padding-top: 84px;
+  }
+
   .section {
     padding: 4.5rem 0;
   }
@@ -994,20 +1165,43 @@ summary:focus-visible {
   }
 
   .site-nav {
-    grid-column: 1 / -1;
-    width: 100%;
-    display: none;
+    position: fixed;
+    top: 82px;
+    right: var(--container-gutter);
+    left: var(--container-gutter);
+    z-index: 1300;
+    display: block;
+    padding: 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: rgba(8, 17, 32, 0.96);
+    box-shadow: var(--shadow-xl);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.985);
+    pointer-events: none;
+    transition:
+      opacity var(--transition),
+      transform var(--transition),
+      visibility var(--transition);
+  }
+
+  body.light-theme .site-nav {
+    background: rgba(255, 255, 255, 0.98);
   }
 
   .site-nav.open {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
   }
 
   .nav-list {
     flex-direction: column;
     align-items: stretch;
-    margin-top: 0.5rem;
-    padding: 0.5rem 0 1rem;
+    margin-top: 0;
+    padding: 0;
   }
 
   .nav-list a {
@@ -1019,8 +1213,6 @@ summary:focus-visible {
   .books-grid,
   .catalog-cards-grid,
   .catalog-toolbar,
-  .benefits-grid,
-  .testimonials-grid,
   .footer-grid,
   .modal-book-header {
     grid-template-columns: 1fr;
@@ -1069,11 +1261,31 @@ summary:focus-visible {
   }
 
   .stat-card,
-  .benefit-card,
-  .testimonial-card,
   .newsletter-box,
   .cta-box,
-  .modal-content {
+  .modal-content,
+  .catalog-toolbar {
     padding: 1.25rem;
+  }
+}
+
+/* =========================================
+   16. Reduced motion
+========================================= */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
   }
 }
